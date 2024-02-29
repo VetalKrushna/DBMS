@@ -1,0 +1,4 @@
+many to one
+create table policy(pno int primary key,pname char(10),permium_amt numeric(10),policy_type char(10));
+
+create table customer(cno int primary key,cname varchar(10),city text,agent_name char(10));

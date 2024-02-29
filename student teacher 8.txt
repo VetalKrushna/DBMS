@@ -1,0 +1,59 @@
+mant to many
+create table student(sno int primary key,sname varchar(10),class char(5) check (class in('fy','sy','ty')));
+
+create table teacher(tno int primary key,tname varchar(10),yrs_experience numeric(5));
+ 
+create table st(sno int references student,tno int references teacher,subject text);
+ 
+insert into student values(1,'sham','fy');
+insert into student values(2,'ram','sy');
+insert into student values(3,'aman','sy');
+insert into student values(4,'sai','ty');
+
+insert into teacher values(11,'Mr.sai',2);
+insert into teacher values(22,'Mr.patil',4);
+insert into teacher values(33,'Mrs.shinde',7);
+insert into teacher values(44,'Mrs.pawar',1);
+
+insert into st values(1,11,'DBMS');
+insert into st values(2,22,'COMPUTER');
+insert into st values(3,33,'DBMS');
+insert into st values(4,44,'DBMS');
+
+i. List teachers having > 5 yrs of experience.
+=  select * from teacher where yrs_experience>5;
+
+ii. List all students studying in “FY.
+=   select * from student where class='fy';
+
+iii. Count the number of teachers who teach subject “____”.
+=   select teacher.* from teacher,st where teacher.tno=st.tno AND subject='DBMS';
+
+iv. Delete record of student whose sno “_________”.
+=delete student from student,st where student.sno=st.sno AND sname='aman';
+
+v. Add designation column in teacher table
+= alter table teacher add column designation char(10);
+
+ C Write a query to List the names of all teachers with their subjects along
+ with the total number of students they are teaching
+
+== select tname,student.*,subject from student, teacher,st
+   where student.sno=st.sno 
+   and teacher.tno=st.tno group by tname;
+                   OR
+ Create a View to find the teacher teaching maximum number of subjects 
+== 
+cREATE VIEW Max_Subjects AS
+SELECT tname, COUNT(subject) AS max_no_of_subject
+FROM Teacher 
+JOIN st  ON teacher.tno=st.tno
+GROUP BY tname
+HAVING COUNT(subject) = (
+  SELECT MAX(subject) FROM (
+    SELECT COUNT(subject) AS subject
+    FROM Teacher 
+    JOIN st  ON teacher.tno= st.tno
+    GROUP BY tname
+  ) AS sub
+);

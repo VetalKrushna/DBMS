@@ -1,0 +1,53 @@
+many to one
+create table Owner (owner_name varchar(20) primary key, addr text, 
+phno numeric(10) );
+
+create table property(property_no int primary key,description varchar(20),area text,
+ rate float check(rate>0), owner_name varchar(20) references Owner );
+
+
+insert into owner values('Mr. Mule','nagar',2457854123);
+insert into owner values('aditya','loni',3654854123);
+insert into owner values('ankur','dond',3547854123);
+insert into owner values('Mr.Patil','pune',3547825698);
+
+insert into property values(1,'R Zone','pune',50000,'Mr. Mule');
+insert into property values(2,'Y Zone','mumbai',25000,'Mr.Patil');
+insert into property values(3,'G Zone','shirdi',350000,'ankur');
+insert into property values(4,'R Zone','nagpur',50000,'aditya');
+insert into property values(5,'B Zone','pune',20000,'ankur');
+insert into property values(6,'G Zone','mumbai',10000,'ankur');
+insert into property values(7,'G Zone','mumbai',50000,'Mr.Patil');
+
+i. Display all the properties from Mumbai owned by “Mr. Patil”. 
+=select * from property where owner_name='Mr.Patil';
+
+ii. Update the phone Number of “Mr. Mule” to 9923323366. 
+= update owner set phno=992332336 where owner_name='Mr. Mule';
+
+iii. List the names of owner having property in “pune” area. 
+= select owner_name from property  where  area='pune'; 
+
+iv. List the name of owners that ends with letter ‘a’. 
+= select * from owner where owner_name like '%a';
+
+v. Alter table by modifying addr to varchar(50)); 
+= alter table owner modify(addr varchar(50));
+
+C Write a query to Find property details with maximum rate in ‘pune’ area. 
+=
+  SELECT p.*
+FROM Property p
+JOIN (
+  SELECT MAX (rate) AS max_rate
+  FROM Property
+  WHERE area = 'pune'
+) m
+ON p.rate = m.max_rate
+AND p.area = 'pune';
+
+
+Create a view to display the owner details having more than 2 properties..
+
+=   create view po as select owner.* from owner ,property as p where
+      owner.owner_name=p.owner_name and (select count(*)from property)>2;

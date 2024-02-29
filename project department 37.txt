@@ -1,0 +1,54 @@
+many to one
+
+create table Project (pno int primary key, pname varchar(20), start_date date,
+    budget int check(budget>0), status text check(status in ('Progressive',
+  'Complete','Incomplete')),dno int references department);
+
+ create table Department (dno int primary key, dname varchar(20), HOD varchar(20));
+  
+
+insert into project values(1,'AI','12/06/2019',52000,'Progressive',102);
+insert into project values(2,'Insurance','2000-10-11',30000,'Complete',101);
+insert into project values(3,'Robot','10/12/2010',20000,'Incomplete',102);
+insert into project values(4,'rain water','2020-10-13',30000,'Progressive',104);
+insert into project values(5,'Robot','11/11/2020',50000,'Complete',102);
+insert into project values(6,'animal','10/11/2000',10000,'Incomplete',103);
+insert into project values(7,'Robot','07/11/2012',25000,'Complete',102);
+
+insert into department values(101,'account','Mr.Patil');
+insert into department values(102,'computer','Mr.Kale');
+insert into department values(103,'biology','Mr.Shinde');
+insert into department values(104,'geography','Mr.Mule');
+
+i. List the project names that are ‘Incomplete’. 
+= select * from project where status='I';
+
+ii. Display the total budget of projects. 
+= select sum(budget) from project;
+
+iii. Display the HOD name of _______ department 
+==   select HOD from department where dname='biology';
+
+iv. Find the names of projects that have budget greater than 50000 .
+==  select pname from project where budget>50000;
+ 
+v. Display the project names that have start date as 12/6/2019. 
+==  select pname from project where start_date='12/6/2019';
+
+C. Write a query to Display the department name having less than 2 
+projects. 
+
+SELECT d.dept_name
+FROM Departments d
+JOIN Projects p
+ON d.dept_id = p.dept_id
+GROUP BY d.dept_name
+HAVING COUNT(p.proj_id) < 2;
+
+== 
+OR 
+
+Create a View to display department wise total budget. 
+
+= create view pd as select department,sum(budget) as total_budget from department ,project as p where
+    p.dno=department.dno    group by department;

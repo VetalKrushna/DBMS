@@ -1,0 +1,56 @@
+many to one
+create table Owner (owner_name varchar(20) primary key, address text, 
+phone int );
+
+create table property (property_no int primary key, area text,location text,
+ city text, owner_name varchar(20) references Owner );
+
+
+
+ insert into Owner values('Mr.More', 'pune', 1234567891);
+ insert into Owner values('Mr.Kumar', 'mumbai', 1234267891);
+ insert into Owner values('Mr.Singh', 'nagar',564267891);
+ insert into Owner values('Mr.Ram', 'nagpur',964267291);
+ insert into Owner values('Mr.Kunal', 'shrirampur',264267231);
+
+
+ insert into property values (101,'2000sq','Main Road','rampur', 'Mr.Kumar');
+ insert into property values (102,'4000sq', 'M J Road','shrirampur', 'Mr.More');
+ insert into property values (103,'1000sq', 'J1 Road','nashik', 'Mr.Kumar');
+ insert into property values (104,'5000sq', 'Gandhi Road','nagar', 'Mr.More');
+ insert into property values (105,'2100sq', 'bypas','nashik', 'Mr.Singh');
+ insert into property values (106,'3000sq', 'MK road','pune', 'Mr.Singh');
+ insert into property values (107,'32000sq', 'sub road','pune', 'Mr.Ram');
+ insert into property values (108,'20000sq', 'daund road','nashik', 'Mr.Kunal');
+ insert into property values (109,'50000sq', 'mumba','rampur', 'Mr.Ram');
+
+i. Give the list of all properties in Nashik city. 
+=select * from property where city='nashik';
+
+ii. Give the names of owners whose property is greater than 2000sq 
+feet. 
+== select owner_name from property where area>'2000sq'; 
+
+iii. Find the number of properties owned by “Mr. Kumar”. 
+==select * from property where owner_name='Mr.More';
+
+iv. Count all properties having area < _____. 
+== select count(*) from property where area<'4000sq';
+
+v. Delete all properties in “Pune” city owned by “Mr. Singh” 
+ =delete from property where oname='Mr.Singh' and city='pune';
+
+  C Write a query to Find the names of all owners who own a property in 
+    Pune city, located in Kothrud area and which has an area > 10000. 
+
+    ==  select * from owner,property where property.owner_name=owner.owner_name
+         and city='pune' and location='kothrud' and area=(select area from 
+           property where area>'10000sq');
+     
+
+
+        OR 
+ Create a View to find the owner wise list of properties. 
+= 
+  create view p as select oname,property from property
+      group by oname,property;

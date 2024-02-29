@@ -1,0 +1,63 @@
+ one to many
+create table sale_order(s_orderno int primary key, s_order_date date ,
+   order_amt int check (order_amt>0),cno int references client);
+
+create table client(cno int primary key,name char(10),address text);
+ 
+insert into sale_order values(1,'2021-5-12',25000,10);
+insert into sale_order values(2,'2021-5-12',55000,10);
+
+insert into sale_order values(3,'2020-5-12',5000,20);
+insert into sale_order values(4,'2021-5-12',55000,20);
+
+insert into sale_order values(5,'2021-5-12',30000,40);
+insert into sale_order values(6,'2023-6-02',20000,30);
+
+insert into sale_order values(7,'2022-3-10',44000,30);
+insert into sale_order values(8,'2020-2-14',56000,40);
+insert into sale_order values(8,'2000-2-12',56000,40);
+
+
+
+insert into client values(10,'sham','pune');
+insert into client values(20,'mohan','mumbai');
+insert into client values(30,'lalit','nagpur');
+insert into client values(40,'bablu','thane');
+
+i. Update the client address of all clients from “Nagpur” to
+“Aurangabad”.
+==update client set address='Aurangabad' where address='nagpur';
+
+ii. Delete all sales order whose client number is 30;
+== delete from sale_order where cno=30;
+
+iii. Display all sale records having order date before “__________”.
+select * from sale_order where s_order_date<'2021-04-01';
+
+iv. Display sales order having maximum order amount.
+ == select * from sale_order where order_amt=(select max(order_amt)
+              from sale_order);
+
+v. Add column order_status to the Sales_order table. 
+  =alter table sale_order add column order_status boolean;
+
+  Write a query to Display client details having maximum 
+  sales orders.  
+=== 
+  select name,count(*) as max_sale_order from client,sale_order where
+ sale_order.cno=client.cno group by name;
+
+
+Create a view to list names of clients having more than 2 sales orders. 
+==create view cs as select name,sale_order as more_than_2_sale_order=(select count(*)
+            from sale_order) from
+             client,sale_order where  sale_order.cno=client.cno 
+                   group by name, more_than_2_sale_order;
+    
+       SELECT c.name, COUNT(so.id) AS orders
+FROM Clients c
+JOIN SalesOrders so
+ON c.id = so.client_id
+GROUP BY c.name
+HAVING COUNT(so.id) > 2;
+

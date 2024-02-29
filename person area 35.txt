@@ -1,0 +1,44 @@
+many to one
+create table area(aname varchar(10)primary key, area_type varchar(10)check(area_type
+in('rural','urban')) );
+
+create table person( pnumber int primary key,pname varchar(20)
+,birthdate date, income int check(income>0),aname varchar(10) references area);
+
+
+
+insert into area values('pune','urban'); 
+insert into area values('khanapur', 'rural');
+insert into area values('belapur','rural');
+insert into area values('mumbai', 'urban');
+
+insert into person values(1, 'om', '2000-10-15',30000, 'pune');
+insert into person values(2,'sai', '1998-12-06',40000, 'khanapur');
+insert into person values(3,'ram', '2000-3-13',50000, 'khanapur'); 
+insert into person values(4,'sham', '2001-11-15',34000, 'belapur');
+insert into person values(5, 'aman', '1998-12-06',44000, 'mumbai');
+insert into person values(6,'aba',' 2002-10-11',25000, 'pune');
+insert into person values(7,'dada', '2002-10-11',35000,'pune');
+
+i.Give the count of people who are born on ‘06/12/1988’ 
+=select count(*)from person where birthdate='1998-12-06';
+
+ii. List names of all people whose income is between 20,000 and 35,000 
+= select pname from person where income between 20000 and 30000;
+
+iii.List the sum of incomes of people living in ‘Mumbai’ 
+==  
+iv.List the minimum income of people. 
+== select min(income) from person;
+
+v.List the details of people, sorted by person number 
+=  select * from person order by pnumber;
+
+C Write a query to Find person details whose income is greater than  average income. 
+= select * from person where income>(select avg(income) from person);
+
+ OR 
+
+ Create a view to list the details of all persons from ‘urban’ area. 
+ =  create view ap as select person.* from person,area where area.aname=person.aname
+    and area_type='urban';

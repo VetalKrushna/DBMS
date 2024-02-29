@@ -1,0 +1,55 @@
+many to one
+create table area(aname varchar(20)primary key, area_type varchar(10) 
+check(area_type in('rural','urban')),pincode int );
+
+create table person( pno int primary key,pname varchar(20)
+,birthdate date, income int,aname varchar(20) references area);
+
+
+
+insert into area values('pune','urban',413728); 
+insert into area values('khanapur', 'rural',413709);
+insert into area values('belapur',' rural',413718);
+insert into area values('mumbai', 'urban',413704);
+insert into area values('kalyaninagar', 'urban',413704);
+
+insert into person values(1, 'om', '2000-10-15',30000, 'pune');
+insert into person values(2,'sai', '2001-8-11',40000, 'khanapur');
+insert into person values(3,'ram', '2000-3-13',50000, 'khanapur'); 
+insert into person values(4,' sham', '2001-7-15',34000, 'belapur');
+insert into person values(5, 'aman', '2002-6-25',44000, 'mumbai');
+insert into person values(6,'aba',' 2002-10-10',35000, 'pune');
+insert into person values(7,'dada', '2002-12-11',35000,'kalyaninagar');
+insert into person values(8,'gopal', '2005-10-02',55000,'pune');
+insert into person values(9,'raman', '2010-11-11',32000,'kalyaninagar');
+
+i. List the details of all people whose name starts with the alphabet ‘R’.
+= select * from person where pname  like 'r%';
+
+ii. List the names of all people whose birthday falls in the month of
+‘July’.
+=  select * from person where extract()
+
+iii. Display the details of people in the sorted order of their income.
+= select * from person order by income asc;
+
+iv. Display the count of areas of ‘urban’ type.
+=select count (area_type='urban') from area;
+
+v. Change the pincode of ‘kalyaninagar’ to 411036. 
+==update area set pincode=411036 where aname='kalyaninagar';
+
+
+Write a query to List the names of people who live in ‘Camp’ area and
+have income less than at least one person who lives in ‘kalyaninagar’
+area. 
+==SELECT name
+FROM People
+WHERE area = 'Camp'
+AND income < (SELECT MIN(income) FROM People WHERE area = 'kalyaninagar');
+
+  
+
+Create a view to list the details of the person with second maximum
+income. 
+== create view va as select * from person where income=(select max(income)from person);

@@ -1,0 +1,63 @@
+many to many
+create table Student (rno int primary key,name varchar(20),
+ city varchar(20));
+
+create table Teacher(tno int primary key,tname varchar(20),
+phone_no numeric(10)unique,salary float);
+
+create Table ST(rno int references Student,
+tno int references Teacher,subject varchar(20));
+
+insert into student values(1,'om', 'pune');
+insert into student values(2, 'Sai', 'Mumbai');
+insert into student values(3, 'Ram', 'Shrirampur');
+insert into student values(4, 'Sham', 'Shrirampur');
+
+insert into teacher values(101, 'Mr.aao',9226214251,50000);
+insert into teacher values(102, 'Me.hbb',9226214252,70000);
+insert into teacher values(103, 'ankur',9226214255,70000);
+insert into teacher values(104, 'kumar',9226214257,70000);
+
+insert into ST values(1, 101, 'DS');
+insert into ST values(2,102, 'DS'); 
+insert into ST values(3,101, 'DS');
+insert into ST values(4,102, 'c');
+insert into ST values(2,103, 'DBMS');
+insert into ST values(1,104, 'DBMS');
+
+i. List the students from______city.
+= select * from student where city='shrirampur';
+
+ii. Find the maximum salary of teachers.
+= select max(salary) from teacher;
+
+iii. Change the phone number of teacher ‘____’ to _____
+=update teacher set phone_no=1236547891 where phone_no=9226214257;
+
+iv. List the details of the teachers in the sorted order of their name.
+==select * from teacher order by tname;
+
+v. Count the number of students who have taken subject “DBMS”.
+==select count(*) from student,st where st.rno=student.rno and 
+                         subject='DBMS';
+
+ C Write a query to List the names of all students who are taught
+  by teacher “____”
+==
+     select * from student join st on st.rno=student.rno join teacher
+  on   st.tno=teacher.tno and tname='kumar';
+
+             OR
+Create a view to list the details of students who have not taken ‘____’
+subject. 
+== or
+
+      SELECT *
+FROM Students
+WHERE id NOT IN (
+  SELECT student_id
+  FROM Enrollments
+  WHERE subject = 'Math'
+);
+
+     

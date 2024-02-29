@@ -1,0 +1,52 @@
+many to one
+create table area(aname varchar(10)primary key, area_type varchar(10)check(area_type
+in('rural','urban')) );
+
+create table person( pnumber int primary key,pname varchar(20)
+,birthdate date, income int check(income>0),aname varchar(10) references area);
+
+
+
+insert into area values('pune','urban'); 
+insert into area values('khanapur', 'rural');
+insert into area values('belapur',' rural');
+insert into area values('mumbai', 'urban');
+
+insert into person values(1, 'om', '2000-10-15',30000, 'pune');
+insert into person values(2,'sai', '2001-8-11',40000, 'khanapur');
+insert into person values(3,'ram', '2000-3-13',50000, 'khanapur'); 
+insert into person values(4,' sham', '2001-11-15',34000, 'belapur');
+insert into person values(5, 'aman', '2002-12-25',44000, 'mumbai');
+insert into person values(6,'aba',' 2002-10-11',35000, 'pune');
+insert into person values(7,'dada', '2002-10-11',35000,'pune');
+
+i. List the details of persons having income > 10000.
+= select * from person where income>30000;
+
+ii. Transfer all people living in ‘Pune’ to ‘Delhi’.
+=update area set aname='Delhi' where area.aname=person.aname AND aname='pune'; 
+
+iii. Count number of area’s having type ‘urban’.
+= select count(*) from area where area_type='urban';
+
+iv. Give the count of people who are born on “_________”.
+=select count(*) from person where birthdate=2000-10-15;
+
+v. List the names of all people living in ‘_____’ area. 
+==select * from person where aname='pune';
+
+ Write a query to Count the total number of people staying in 
+“urban” area
+ and having average income.
+=
+
+ SELECT aname, COUNT(*)=(select * from person,area
+   where area.aname=person.aname and aname='urban'
+     AND income = (SELECT AVG(income) from person))  AS people_count
+ FROM person
+ GROUP BY aname;
+
+          OR
+ Create a View to print the person details along
+ with their area name.
+=create view v1 as  select * from person order by aname;

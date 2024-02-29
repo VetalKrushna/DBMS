@@ -1,0 +1,41 @@
+one to one
+create table room(room_no int primary key ,room_name varchar(20),
+    room_type varchar(10) check(room_type in('AC','NON-AC')),
+charges float check(charges>0));
+
+create table guest(guest_code int primary key ,gname varchar(20),city text);
+
+insert into room values(1,'I class','AC',10000);
+insert into room values(2,'II class','NON-AC',5000);
+insert into room values(3,'I class','AC',15000);
+insert into room values(4,'II class','NON-AC',17000);
+
+insert into guest values(1,'karanesh','pune');
+insert into guest values(2,'Sai','mumbai');
+insert into guest values(3,'Ram','nagar');
+insert into guest values(4,'Sham','mumbai');
+
+i. List the names of the guests in the sorted order by city name. 
+=  select * from guest order by city;
+
+ii. Find the maximum charges of a room. 
+=   select max(charges) from room;
+
+iii. Increase the charges of all AC rooms by 10%. 
+== update room set charges=charges+charges*10/100;
+
+iv. List the names of all the NONAC rooms whose charges are more 
+than 10000. 
+=    select room_name from room where room_type='NON-AC' and charges>10000;
+
+v. List all guests whose name starts with “S” 
+=  select * from guest where gname like 'S%';
+
+C Write a query to List the name of the guest to whom the room with lowest
+charges is allotted. 
+= 
+    select gname from guest,room where room.room_no=guest.guest_code and
+      charges=(select min(charges) from room); 
+
+ OR 
+

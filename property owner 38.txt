@@ -1,0 +1,41 @@
+many to one
+create table Owner (owner_name varchar(20) primary key, addr text, phno int);
+
+create table property (pno int primary key, description text, area text,
+rate float check(rate>0), owner_name varchar(20) references Owner);
+
+
+
+ insert into Owner values('Mr.More', 'pune', 1234567891);
+ insert into Owner values('Raman', 'mumbai', 1234267891);
+ insert into Owner values('Ram', 'nagar',556342671);
+
+
+ insert into property values (101, '2BHK', 'chinchwad',100000, 'Raman');
+ insert into property values (102, '3BHK', 'M J Road',250000, 'Mr.More');
+ insert into property values (103, '1BHK', 'J1 Road',50000, 'Raman');
+ insert into property values (104, '1RK', 'saswad',52000, 'Mr.More');
+ insert into property values (105, '3RK', 'Road',102000, 'Ram');
+
+i. Display area wise property details.
+==select * from property order by area;
+
+ii. Display the properties owned by 'Mr.More'.
+== select * from property where owner_name='Mr.More';
+
+iii. Display owner wise property detail.
+== select * from property order by owner_name;
+
+iv. Display the average rate of a property.
+==select avg(rate) from property;
+
+
+v. Update the rate of property by 15% in ‘Saswad’ area.
+==update property set rate=rate+rate*15/100 where area='saswad';
+
+
+Write a query to Display the owner details who do not have any 
+property in Chinchwad area. 
+=
+  select o.* from owner as o,property as p where p.owner_name=o.owner_name
+    and area!='chinchwad';
